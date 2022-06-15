@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-deployment
+  labels:
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hey
+  template:
+    metadata:
+      labels:
+        app: hey
+        version: v1
+    spec:
+      containers:
+      - name: hey
+        image: gcr.io/cheq-inscope/hey@sha256:b03d7a605675edda62cf8f60bc68624390ddee2041691959fbe340d0e0421b92
+        ports:
+        - containerPort: 8080
+       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+  labels: 
+    app: hey
+spec:
+  selector:
+    app: hey
+  ports:
+  - name: http
+    port: 8080 
