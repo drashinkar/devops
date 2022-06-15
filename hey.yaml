@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hey
-        image: gcr.io/cheq-inscope/hey@sha256:b03d7a605675edda62cf8f60bc68624390ddee2041691959fbe340d0e0421b92
+        image: gcr.io/cheq-outscope/hey@sha256:f9ce1d07144a8b7fdf92f0808a1538d6d3fb7046170005c56bd8c45ff969c90b
         ports:
         - containerPort: 8080
        
@@ -33,7 +33,7 @@ spec:
     app: hey
   ports:
   - name: http
-    port: 8080 
+    port: 8080  
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -45,6 +45,11 @@ spec:
   gateways:
   - gateway
   http:
-  - route:
+  - match:
+    - uri:
+        regex: "/Devops"
+    route:
     - destination:
         host: hello-service
+        port:
+          number: 80
